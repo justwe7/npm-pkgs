@@ -6,7 +6,7 @@ scss常用方法及样式留存
 
 | 文件           | 平台           |
 | -------------- | -------------- |
-| web-mixin.scss | PC(px)         |
+| pc-mixin.scss | PC(px)         |
 | m-mixin.scss   | 移动端(rem/vw) |
 | wx-mixin.scss  | 小程序(rpx)    |
 
