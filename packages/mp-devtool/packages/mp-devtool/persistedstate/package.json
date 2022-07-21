@@ -1,0 +1,28 @@
+{
+  "name": "@justwe7/persistedstate",
+  "version": "0.0.1",
+  "description": "",
+  "source": "src/index.js",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
+  "scripts": {
+    "dev": "parcel demo/index.html",
+    "watch": "parcel watch",
+    "build": "parcel build"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justwe7/npm-pkgs.git"
+  },
+  "author": "justwe7",
+  "email": "ilihuaxi@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/justwe7/npm-pkgs/issues"
+  },
+  "homepage": "https://github.com/justwe7/npm-pkgs#readme",
+  "devDependencies": {
+    "parcel": "^2.6.2"
+  }
+}
