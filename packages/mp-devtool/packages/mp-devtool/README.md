@@ -1,4 +1,8 @@
-# freescss
+# npm发包仓库
+
+- [@justwe7/stylelint-order-standard](./stylelint-order-standard) - stylint-order规则
+- [@justwe7/persistedstate](./persistedstate) - 持久化全局变量
+
 
 scss常用方法及样式留存
 
