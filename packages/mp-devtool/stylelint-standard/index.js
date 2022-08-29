@@ -140,9 +140,9 @@ module.exports = {
         'border-bottom-left-image',
 
         //
+        'color',
         'background',
         'background-color',
-        'color',
         'background-image',
         'background-attachment',
         'background-position',
