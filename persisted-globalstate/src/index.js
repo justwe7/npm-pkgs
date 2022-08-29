@@ -1,8 +1,9 @@
 import a from './lib/utils.js'
 console.log(12)
 console.log(a)
-
-
+if (process.env.NODE_ENV !== 'production') {
+  require('../example/index.html')
+}
 class GlobalState {
   constructor () {
     return 112
@@ -86,3 +87,5 @@ function foo (globalKey) {
     })
   }
 }
+foo()
+export default 1234
