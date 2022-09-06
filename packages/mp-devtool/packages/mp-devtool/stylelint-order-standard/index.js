@@ -79,7 +79,7 @@ module.exports = {
         'object-fit',
         'clip',
 
-        //
+        // 盒子模型
         'width',
         'min-width',
         'max-width',
@@ -139,7 +139,7 @@ module.exports = {
         'border-bottom-right-image',
         'border-bottom-left-image',
 
-        //
+        // 颜色样式
         'color',
         'background',
         'background-color',
