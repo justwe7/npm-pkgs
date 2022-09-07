@@ -1,6 +1,6 @@
 {
   "name": "@justwe7/devtools-webpack-plugin",
-  "version": "1.0.1-2",
+  "version": "1.0.0",
   "description": "",
   "main": "webpack-plugin.js",
   "scripts": {
