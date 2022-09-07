@@ -1,6 +1,7 @@
 # npm发包仓库
 
 - [@justwe7/stylelint-order-standard](./tree/main/stylelint-order-standard) - stylint-order规则
+- [@justwe7/devtools-webpack-plugin](./tree/main/devtools-webpack-plugin) - H5页面调试工具集（webpack插件）
 - [@justwe7/persistedstate](./tree/main/persistedstate) - 持久化全局变量
 
 scss常用方法及样式留存

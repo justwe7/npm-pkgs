@@ -9,7 +9,7 @@
   "dependencies": {
     "stylelint-order": "^5.0.0"
   },
-  "keywords": [],
+  "keywords": ["stylelint", "stylelint-order"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/justwe7/npm-pkgs.git"
