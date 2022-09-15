@@ -1,0 +1,5 @@
+/dist/*
+babel.config.js
+jsconfig.json
+src/manifest.json
+src/wxcomponents
