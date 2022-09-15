@@ -1,0 +1,117 @@
+page {
+  --VC-BG-0: #191919;
+  --VC-BG-1: #1f1f1f;
+  --VC-BG-2: #232323;
+  --VC-BG-3: #2f2f2f;
+  --VC-BG-4: #606060;
+  --VC-BG-5: #2c2c2c;
+  --VC-BG-6: rgba(255, 255, 255, 0.2);
+  --VC-FG-0: rgba(255, 255, 255, 0.8);
+  --VC-FG-HALF: rgba(255, 255, 255, 0.6);
+  --VC-FG-1: rgba(255, 255, 255, 0.5);
+  --VC-FG-2: rgba(255, 255, 255, 0.3);
+  --VC-FG-3: rgba(255, 255, 255, 0.05);
+  --VC-RED: #fa5151;
+  --VC-ORANGE: #c87d2f;
+  --VC-YELLOW: #cc9c00;
+  --VC-GREEN: #47B5FF;
+  --VC-LIGHTGREEN: #28b561;
+  --VC-BRAND: #07c160;
+  --VC-BLUE: #10aeff;
+  --VC-INDIGO: #1196ff;
+  --VC-PURPLE: #8183ff;
+  --VC-LINK: #7d90a9;
+  --VC-TEXTGREEN: #259c5c;
+  --VC-FG: white;
+  --VC-BG: black;
+  --VC-BG-COLOR-ACTIVE: #282828;
+  --VC-WARN-BG: #332700;
+  --VC-WARN-BORDER: #664e00;
+  --VC-ERROR-BG: #321010;
+  --VC-ERROR-BORDER: #642020;
+  --VC-DOM-TAG-NAME-COLOR: #5DB0D7;
+  --VC-DOM-ATTRIBUTE-NAME-COLOR: #9BBBDC;
+  --VC-DOM-ATTRIBUTE-VALUE-COLOR: #f29766;
+  --VC-CODE-KEY-FG: #e36eec;
+  --VC-CODE-PRIVATE-KEY-FG: #f4c5f7;
+  --VC-CODE-FUNC-FG: #556af2;
+  --VC-CODE-NUMBER-FG: #9980ff;
+  --VC-CODE-STR-FG: #e93f3b;
+  --VC-CODE-NULL-FG: #808080;
+}
+
+.jw-devtool {
+  z-index: 9999;
+  position: fixed;
+  left: 20vw;
+  top: 35vh;
+  border-radius: 10rpx;
+  padding: 0 30rpx;
+  line-height: 44rpx;
+  font-size: 24rpx;
+  color: var(--VC-FG);
+  background-color: var(--VC-GREEN);
+}
+.g-panel-container-mask {
+  opacity: 0;
+  z-index: 9999;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.g-panel-container {
+  box-sizing: border-box;
+  z-index: 9999;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  transition: 0.1s linear;
+  left: 0;
+  bottom: 0;
+  padding-bottom: 20rpx;
+  width: 100vw;
+  height: 600rpx;
+  color: var(--VC-FG-0);
+  background-color: var(--VC-BG-0);
+  transform: translate3d(0, 0, 0);
+}
+.g-panel-container.z-hidden {
+  visibility: hidden;
+  transform: translate3d(0, 100%, 0);
+}
+
+.g-tab {
+  display: flex;
+  border-top: 1rpx solid var(--VC-FG-3);
+  border-bottom: 1rpx solid var(--VC-FG-3);
+  font-size: 26rpx;
+}
+.u-tab-item {
+  padding: 15rpx 22rpx;
+  border-right: 1rpx solid var(--VC-FG-3);
+}
+.u-tab-item.z-active {
+  background-color: var(--VC-BG-1);
+}
+
+.g-content {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--VC-BG-2);
+}
+
+.g-tool {
+  display: flex;
+  border-top: 1rpx solid var(--VC-FG-3);
+}
+.u-tool-btn {
+  flex: 0 0 50%;
+  text-align: center;
+  line-height: 38rpx;
+  font-size: 26rpx;
+}
+.u-tool-btn:nth-of-type(1) {
+  border-right: 1rpx solid var(--VC-FG-3);
+}
