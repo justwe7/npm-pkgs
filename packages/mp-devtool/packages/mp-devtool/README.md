@@ -2,7 +2,7 @@
 
 - [@justwe7/stylelint-order-standard](./tree/main/stylelint-order-standard) - stylint-order规则
 - [@justwe7/devtools-webpack-plugin](./tree/main/devtools-webpack-plugin) - H5页面调试工具集（webpack插件）
-- [@justwe7/mp-devtool-plugin](./tree/main/mp-devtool-plugin) - 小程序调试增强工具（webpack插件）
+- [@justwe7/mp-devtool](./tree/main/mp-devtool) - 小程序调试增强工具（webpack插件）
 - [@justwe7/persistedstate](./tree/main/persistedstate) - 持久化全局变量
 
 

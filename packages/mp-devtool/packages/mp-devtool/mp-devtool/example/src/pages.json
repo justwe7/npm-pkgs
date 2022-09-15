@@ -1,0 +1,28 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "hello"
+      }
+    },
+    {
+      "path": "pages/detail/index",
+      "style": {
+        "navigationBarTitleText": "hello"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "默认标题",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "usingComponents": {
+      "jw-tool": "/wxcomponents/jw-devtool/index"
+    }
+  },
+  "easycom": {
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+  }
+}
