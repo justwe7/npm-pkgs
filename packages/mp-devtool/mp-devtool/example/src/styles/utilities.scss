@@ -1,0 +1,169 @@
+
+/* width */
+$valArr: 36;
+
+@each $val in $valArr {
+  .f-width-#{$val} {
+    width: $val + rpx;
+  }
+}
+
+/* height */
+$valArr: 36;
+
+@each $val in $valArr {
+  .f-height-#{$val} {
+    height: $val + rpx;
+  }
+}
+
+/* padding */
+$pdArr: 5 10 20 36;
+
+@each $val in $pdArr {
+  .f-pd-#{$val} {
+    padding: $val + rpx;
+  }
+}
+
+//上
+@each $val in $pdArr {
+  .f-pt-#{$val} {
+    padding-top: $val + rpx;
+  }
+}
+
+//右
+@each $val in $pdArr {
+  .f-pr-#{$val} {
+    padding-right: $val + rpx;
+  }
+}
+
+//下
+@each $val in $pdArr {
+  .f-pb-#{$val} {
+    padding-bottom: $val + rpx;
+  }
+}
+
+//左
+@each $val in $pdArr {
+  .f-pl-#{$val} {
+    padding-left: $val + rpx;
+  }
+}
+
+/* margin */
+$mgArr: 5 10 20 24 30 40;
+
+@each $val in $mgArr {
+  .f-mg-#{$val} {
+    margin: $val + rpx;
+  }
+}
+
+//上
+@each $val in $mgArr {
+  .f-mt-#{$val} {
+    margin-top: $val + rpx;
+  }
+}
+
+//右
+@each $val in $mgArr {
+  .f-mr-#{$val} {
+    margin-right: $val + rpx;
+  }
+}
+
+//下
+@each $val in $mgArr {
+  .f-mb-#{$val} {
+    margin-bottom: $val + rpx;
+  }
+}
+
+//左
+@each $val in $mgArr {
+  .f-ml-#{$val} {
+    margin-left: $val + rpx;
+  }
+}
+
+/* font */
+
+$fzArr: 18 20 22 24 26 28 30 32 36;
+
+@each $val in $fzArr {
+  .f-fz-#{$val} {
+    font-size: $val + rpx;
+  }
+}
+
+/* -- */
+.f-reset-wx-button {
+  display: block;
+  line-height: inherit;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: inherit;
+  color: #fff;
+  &::after {
+    border: none;
+  }
+}
+
+.f-flex {
+  display: flex;
+}
+
+.f-flex1 {
+  flex: 1;
+}
+
+.f-fl {
+  float: left;
+}
+
+.f-fr {
+  float: right;
+}
+
+.f-blod {
+  font-weight: 700;
+}
+
+.f-text-center {
+  text-align: center;
+}
+
+.f-text-right {
+  text-align: right;
+}
+
+.f-text-left {
+  text-align: left;
+}
+
+.f-width-all {
+  width: 100%;
+  flex-basis: 100%;
+}
+
+.f-height-all {
+  height: 100%;
+}
+
+/* 布局留白 */
+
+.f-wing-blank {
+  padding-left: 28rpx;
+  padding-right: 28rpx;
+}
+
+.f-wing-space {
+  padding-top: 26rpx;
+  padding-bottom: 26rpx;
+}

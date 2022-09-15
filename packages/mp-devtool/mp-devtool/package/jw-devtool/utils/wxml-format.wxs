@@ -1,0 +1,5 @@
+module.exports = {
+  stringify: function (data) {
+    return JSON.stringify(data)
+  }
+}
