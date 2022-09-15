@@ -2,8 +2,15 @@
 
 - [@justwe7/stylelint-order-standard](./tree/main/stylelint-order-standard) - stylint-order规则
 - [@justwe7/devtools-webpack-plugin](./tree/main/devtools-webpack-plugin) - H5页面调试工具集（webpack插件）
+- [@justwe7/mp-devtool-plugin](./tree/main/mp-devtool-plugin) - 小程序调试增强工具（webpack插件）
 - [@justwe7/persistedstate](./tree/main/persistedstate) - 持久化全局变量
 
+
+## TODO
+- lerna进行包管理
+- 持久化全局变量
+
+## old
 scss常用方法及样式留存
 
 > 节省开发事件封装常用的scss样式库以便日常开发留存，后期调研是否可以npm方式使用的可行性
