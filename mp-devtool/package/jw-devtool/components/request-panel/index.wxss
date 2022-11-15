@@ -17,6 +17,7 @@
 }
 .row-item {
   word-break: break-all;
+  white-space: now;
   padding: 0 4rpx;
 }
 .row-item:not(:last-of-type) {
