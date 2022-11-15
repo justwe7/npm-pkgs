@@ -1,9 +1,21 @@
 const compiler = require('@vue/compiler-sfc')
 const path = require('path')
 const { pagePathTest } = require('./path')
-
+/**
+ * 
+ * @param {*} source 文件字符串内容
+ * @param {*} injectTagName 插入的标签名 array|string
+ * @returns source
+ */
 function inject (source, injectTagName) {
-  const injectTag = `<${injectTagName}></${injectTagName}>`
+  // 插入的标签
+  let injectTag
+  if (injectTagName instanceof Array) {
+    injectTag = injectTagName.map(tag => `<${tag}></${tag}>`).join('')
+  } else {
+    injectTag = `<${injectTagName}></${injectTagName}>`
+  }
+  // console.log(compiler.parse(source))
 
   const { descriptor } = compiler.parse(source)
   if (descriptor.template) {
@@ -23,6 +35,11 @@ function inject (source, injectTagName) {
   return source
 }
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 function injectComponents ({ source, resourcePath, injectTagName = 'jw-tool', uniPagesList, context }) {
   // 插入组件调用
   const isSFC = path.extname(resourcePath).includes('vue')
