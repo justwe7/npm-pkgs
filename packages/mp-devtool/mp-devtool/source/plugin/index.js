@@ -1,12 +1,11 @@
 // const fs = require('fs')
-// const path = require('path')
+const path = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+// const RawSource = require('webpack-sources').RawSource;
 const pkg = require('../../package.json')
 
 class JwDevtoolPlugin {
   apply (compiler) {
-    // console.log(998, process.env.PLUGIN_ENV)
-    // console.log(compiler.options.plugins)
     // 插件开发环境组件代码不进行复制
     const componentPath = process.env.PLUGIN_ENV === 'development' ? '../package/jw-devtool' : 'node_modules/' + pkg.name + '/package/jw-devtool'
     compiler.options.plugins.push(
@@ -21,14 +20,22 @@ class JwDevtoolPlugin {
 
     if (compiler.hooks) {
       // webpack4.x
+      // entry新增js劫持
       compiler.hooks.entryOption.tap({ name: 'JW_DEVTOOL_PLUGIN' }, this.addDevtoolsSource.bind(this))
-      /* compiler.hooks.afterPlugins.tap({ name: 'ABC' }, function (options) {
-        console.log(options)
-        // console.log(param)
+      // 通过loader修改json，不采用插件方式了
+      /* compiler.hooks.emit.tapAsync({ name: 'JW_DEVTOOL_PLUGIN_GENPAGE' }, function (compilation, callback) {
+        const outputPath = path.join(
+          compilation.options.output.path,
+          'new-pages.json'
+        )
+        const outputRelativePath = path.relative(
+            compilation.options.output.path,
+            outputPath
+        );
+        // 将内容挂载到assets上面去 使用 RawSource 将 buffer 转为 source
+        compilation.assets[outputRelativePath] = new RawSource({ a: 1 });
+        callback();
       }) */
-    } else {
-      // ${webpack version} < 4
-      compiler.plugin('entry-option', this.addDevtoolsSource.bind(this))
     }
   }
 
