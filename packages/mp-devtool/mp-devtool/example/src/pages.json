@@ -13,6 +13,20 @@
       }
     }
   ],
+  "subPackages": [
+    {
+      "root": "pages-share",
+      "pages": [
+        {
+          "path": "detail/index",
+          "style": {
+            "navigationBarTitleText": "会员权益",
+            "usingComponents": {
+            }
+          }
+        }
+      ]
+  }],
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "默认标题",
