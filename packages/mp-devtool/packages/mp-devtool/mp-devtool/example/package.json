@@ -14,8 +14,6 @@
     "info": "node node_modules/@dcloudio/vue-cli-plugin-uni/commands/info.js",
     "lint:fix": "vue-cli-service lint --fix"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "@babel/runtime": "~7.17.9",
     "@dcloudio/types": "^3.0.4",
@@ -67,7 +65,7 @@
     "jest": "^25.4.0",
     "mini-types": "*",
     "miniprogram-api-typings": "*",
-    "node-sass": "^4.14.1",
+    "node-sass": "^6.0.1",
     "postcss-comment": "^2.0.0",
     "regenerator-runtime": "^0.12.1",
     "sass-loader": "^10.3.0",
