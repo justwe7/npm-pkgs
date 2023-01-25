@@ -1,25 +1,23 @@
 {
-  "name": "npm-pkgs",
-  "version": "1.0.0",
-  "description": "- [@justwe7/stylelint-order-standard](./tree/main/stylelint-order-standard) - stylint-order规则 - [@justwe7/devtools-webpack-plugin](./tree/main/devtools-webpack-plugin) - H5页面调试工具集（webpack插件） - [@justwe7/mp-devtool](./tree/main/mp-devtool) - 小程序调试增强工具（webpack插件） - [@justwe7/persistedstate](./tree/main/persistedstate) - 持久化全局变量",
-  "main": "index.js",
-  "scripts": {
-  },
+  "name": "@justwe7/mp-devtool-plugin",
+  "version": "0.0.3",
+  "author": "justwe7",
+  "email": "ilihuaxi@gmail.com",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/justwe7/npm-pkgs.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/justwe7/npm-pkgs/issues"
-  },
-  "homepage": "https://github.com/justwe7/npm-pkgs#readme",
+  "main": "source/index.js",
+  "files": [
+    "source",
+    "package"
+  ],
+  "scripts": {},
   "dependencies": {
-    "lerna": "^6.4.0"
+    "@vue/compiler-sfc": "^3.2.39",
+    "copy-webpack-plugin": "^5.1.1",
+    "loader-utils": "^2.0.2"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "devDependencies": {}
 }
