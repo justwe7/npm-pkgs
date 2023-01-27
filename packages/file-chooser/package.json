@@ -1,0 +1,55 @@
+{
+  "name": "@justwe7/file-chooser",
+  "version": "0.0.0",
+  "description": "less ui的文件选择器，输出base64与File。并提供拖拽上传、图片压缩、文件上传、进度监听等功能",
+  "keywords": [
+    "file",
+    "input",
+    "upload",
+    "drag-upload",
+    "html"
+  ],
+  "author": "justwe7 <ilihuaxi@gmail.com>",
+  "homepage": "https://github.com/justwe7/npm-pkgs/tree/main/packages/file-chooser#readme",
+  "license": "ISC",
+  "type": "module",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "main": "./dist/file-chooser.umd.cjs",
+  "module": "./dist/file-chooser.js",
+  "types": "./index.d.ts",
+  "exports": {
+    "types": "./index.d.ts",
+    "import": "./dist/file-chooser.js",
+    "require": "./dist/file-chooser.umd.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/runtime-corejs3": "^7.20.13",
+    "@rollup/plugin-babel": "^6.0.3",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "exifr": "^7.1.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justwe7/npm-pkgs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/justwe7/npm-pkgs/issues"
+  }
+}
