@@ -1,6 +1,11 @@
 import { TypeInitOptions, TypeChooseFileRet } from '..';
-import { fileDataHandler } from './utils/file-utils';
+import { fileDataHandler, compressFileToBase64, getVideoCover, dataURLtoBlobAsFile } from './utils/file-utils';
 
+export {
+  compressFileToBase64,
+  getVideoCover,
+  dataURLtoBlobAsFile,
+}
 export default class FileChooser /* implements TypeInitOptions */ {
   el!: HTMLInputElement
   private maxSize!: number // 文件大小
@@ -33,9 +38,7 @@ export default class FileChooser /* implements TypeInitOptions */ {
     if (options.multiple) {
       this.el.setAttribute('multiple', '')
     }
-    if (options.accept) {
-      this.el.setAttribute('accept', options.accept || "image/jpg,image/jpeg,image/png,image/gif")
-    }
+    this.el.setAttribute('accept', options.accept || "image/jpg,image/jpeg,image/png,image/gif")
     return this
   }
   clear () {
@@ -60,10 +63,12 @@ export default class FileChooser /* implements TypeInitOptions */ {
           const file = files[index]
           if (!_this.extReg.test(file.type)) return reject('请选择正确的文件类型')
           if (file.size >= _this.maxSize * 1024) return reject('请选择小于' + _this.maxSize + 'kb的文件')
-
+          
           promises.push(fileDataHandler(file, _this.compress, _this.videoCover as any))
         }
-        Promise.all(promises).then(resolve).catch(reject)
+        if (files.length) { // 弹出选择器选择图片未确认为空
+          Promise.all(promises).then(resolve).catch(reject)
+        }
       }
     })
   }

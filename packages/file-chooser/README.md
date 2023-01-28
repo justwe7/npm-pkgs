@@ -33,7 +33,7 @@ document.querySelector('#btn')?.addEventListener('click', () => {
 ### 实例方法
 | 方法     | 说明                     | 返回值               |
 | -------- | ------------------------  | ------------------ |
-| chooseFile(accept?) | 唤起文件选择器                 | `Promise<{base64: string,file: File}[]>`         |
+| chooseFile(accept?) | 唤起文件选择器                 | `Promise<{base64: string,file: File,cover?: {base64: string,file: File}}[]>`         |
 | changeOption | 修改选择器属性，返回实例支持链式调用                 | `FileChooserInstance`         |
 | clear | 清空已选择文件                 | `void`         |
 | destory | 移除上传表单                 | `void`         |

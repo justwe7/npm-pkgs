@@ -6,6 +6,14 @@ export default class Main {
   destory(): void
 }
 
+export const compressFileToBase64: (file: File|Blob, compressQuality: any = 0.8, maxWidth: any = 1500) => Promise<string>
+
+export const getVideoCover: (base64Content: string, { currentTime = 0.5, width, height }: any = {} as { currentTime: number, width?: number, height?: number }) => Promise<string> 
+
+export const dataURLtoBlobAsFile: (dataurl: string, fileName: string, fileType: 'blob'|'file' = 'blob') => any
+
+// export const getFileName: (file: File, ext = 'jpeg') => string
+
 export declare interface TypeInitOptions {
   multiple?: boolean
   maxSize?: number
@@ -20,7 +28,7 @@ export declare interface TypeInitOptions {
 export declare interface TypeChooseFileRet {
   file: File|Blob
   base64: string
-  cover?: string
+  cover?: TypeChooseFileRet
 }
 
 interface AnyObject {

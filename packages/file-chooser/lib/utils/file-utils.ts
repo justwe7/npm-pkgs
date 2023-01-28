@@ -1,4 +1,4 @@
-import exifr from 'exifr'
+// import exifr from 'exifr'
 import { TypeInitOptions, TypeChooseFileRet } from '../..'
 
 
@@ -24,7 +24,7 @@ export function fileDataHandler (file: File, compress: TypeInitOptions["compress
       } else if (videoCover) {
         const base64 = this.result as string
         getVideoCover(base64).then(cover => {
-          resolve({ file, base64, cover })
+          resolve({ file, base64, cover: { base64: cover, file: dataURLtoBlobAsFile(cover, 'cover.jpeg') } })
         })
       } else {
         resolve({ file, base64: this.result as string })
@@ -67,7 +67,7 @@ export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.
           canvas.height = height
           // ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
           // resolve(canvas.toDataURL('image/jpeg', compressQuality))
-          exifr.orientation(file).then(orientation => { // https://github.com/MikeKovarik/exifr
+          require('exifr').orientation(file).then((orientation: any) => { // https://github.com/MikeKovarik/exifr
             if (orientation !== 1 && orientation !== undefined && orientation !== 0) {
               switch (orientation) {
                 case 6:// 需要顺时针（向左）90度旋转
@@ -112,7 +112,7 @@ export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.
  * @param {*} [{ currentTime = 0.5, width, height }={}]
  * @return {*}
  */
-function getVideoCover (base64Content: string, { currentTime = 0.5, width, height }: any = {} as { currentTime: number, width?: number, height?: number }): Promise<string> {
+export function getVideoCover (base64Content: string, { currentTime = 0.5, width, height }: any = {} as { currentTime: number, width?: number, height?: number }): Promise<string> {
   return new Promise(async (resolve) => {
     const videoEl = document.createElement('video')
     videoEl.currentTime = currentTime

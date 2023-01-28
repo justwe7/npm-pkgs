@@ -1,6 +1,6 @@
 {
   "name": "@justwe7/file-chooser",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "无UI、通过js调用的文件选择器，输出base64与File。并提供拖拽上传、图片压缩、文件上传、进度监听等功能",
   "keywords": [
     "file",
