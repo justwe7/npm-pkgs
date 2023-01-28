@@ -50,7 +50,7 @@ export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.
     fd.readAsDataURL(file)
     fd.onloadend = e => {
       const image = new Image()
-      image.onload = () => {
+      image.onload = async () => {
         let width = image.width
         let height = image.height
         let rate = 1 // 像素比例
@@ -67,35 +67,43 @@ export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.
           canvas.height = height
           // ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
           // resolve(canvas.toDataURL('image/jpeg', compressQuality))
-          require('exifr').orientation(file).then((orientation: any) => { // https://github.com/MikeKovarik/exifr
-            if (orientation !== 1 && orientation !== undefined && orientation !== 0) {
-              switch (orientation) {
-                case 6:// 需要顺时针（向左）90度旋转
-                  canvas.width = height
-                  canvas.height = width
-                  ctx.rotate(Math.PI / 2)
-                  ctx.drawImage(image, 0, -height, width, height)
-                  break
-                case 8:// 需要逆时针（向右）90度旋转
-                  canvas.width = height
-                  canvas.height = width
-                  ctx.rotate(-90 * Math.PI / 180)
-                  ctx.drawImage(image, -width, 0, width, height)
-                  break
-                case 3:// 需要180度旋转
-                  ctx.rotate(Math.PI)
-                  ctx.drawImage(image, -width, -height, width, height)
-                  break
-                default: ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
-              }
-            } else {
-              ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+          try {
+            if (!window.exifr) {
+              await loadExternalAsset('https://testingcf.jsdelivr.net/npm/exifr/dist/lite.umd.js')
             }
-            resolve(canvas.toDataURL('image/jpeg', compressQuality))
-          }).catch(() => {
+            exifr.orientation(file).then((orientation: any) => { // https://github.com/MikeKovarik/exifr
+              if (orientation !== 1 && orientation !== undefined && orientation !== 0) {
+                switch (orientation) {
+                  case 6:// 需要顺时针（向左）90度旋转
+                    canvas.width = height
+                    canvas.height = width
+                    ctx.rotate(Math.PI / 2)
+                    ctx.drawImage(image, 0, -height, width, height)
+                    break
+                  case 8:// 需要逆时针（向右）90度旋转
+                    canvas.width = height
+                    canvas.height = width
+                    ctx.rotate(-90 * Math.PI / 180)
+                    ctx.drawImage(image, -width, 0, width, height)
+                    break
+                  case 3:// 需要180度旋转
+                    ctx.rotate(Math.PI)
+                    ctx.drawImage(image, -width, -height, width, height)
+                    break
+                  default: ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+                }
+              } else {
+                ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+              }
+              resolve(canvas.toDataURL('image/jpeg', compressQuality))
+            }).catch(() => {
+              ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+              resolve(canvas.toDataURL('image/jpeg', compressQuality))
+            })
+          } catch (error) {
             ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
             resolve(canvas.toDataURL('image/jpeg', compressQuality))
-          })
+          }
         } else {
           resolve((e.target as any).result as string)
         }
@@ -178,4 +186,14 @@ function getFileName (file: File, ext = 'jpeg') {
     ext = fileExt
   }
   return genUuid() + '.' + ext
+}
+
+function loadExternalAsset (uri: string) {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.setAttribute('src', uri);
+    script.setAttribute('charset', 'UTF-8');
+    document.querySelector('html')!.appendChild(script);
+    script.onload = resolve;
+  })
 }
