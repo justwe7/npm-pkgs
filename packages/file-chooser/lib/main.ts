@@ -3,21 +3,12 @@ import { fileDataHandler } from './utils/file-utils';
 
 export default class FileChooser /* implements TypeInitOptions */ {
   el!: HTMLInputElement
-  // private multiple!: boolean
   private maxSize!: number // 文件大小
-  private compress!: TypeInitOptions["compress"] // 默认不压缩 true 默认压缩率0.8 最长边长1500px
+  private compress!: TypeInitOptions["compress"] // 【图片】默认不压缩 true 默认压缩率0.8 最长边长1500px
+  private videoCover!: TypeInitOptions["videoCover"] // 【视频】默认不截取
   private extReg!: RegExp // 格式校验
-  // private maxWidth!: number // 最长边长，超出会进行压缩
-  // files?: File[]
-  // private extReg!: string
-  // private accept!: string
 
   constructor (options: Partial<TypeInitOptions> = {}) {
-    this.instanceInit(options)
-    // this.options.accept
-    // this.a = options.a
-  }
-  private instanceInit (options: Partial<TypeInitOptions>) {
     if (options.el) {
       this.el = options.el
     } else {
@@ -30,8 +21,13 @@ export default class FileChooser /* implements TypeInitOptions */ {
       oBody.appendChild(this.el)
     }
     // this.multiple = options.multiple || false
+    this.changeOptions(options)
+  }
+  changeOptions (options: Partial<TypeInitOptions>) {
+    // this.multiple = options.multiple || false
     this.maxSize = (options.maxSize || 500) // 500kb
     this.compress = options.compress || false
+    this.videoCover = options.videoCover
     this.extReg = new RegExp(`\\/(${options.extReg || "png|jpe?g|webp"})$`, 'i')
 
     if (options.multiple) {
@@ -40,6 +36,7 @@ export default class FileChooser /* implements TypeInitOptions */ {
     if (options.accept) {
       this.el.setAttribute('accept', options.accept || "image/jpg,image/jpeg,image/png,image/gif")
     }
+    return this
   }
   clear () {
     this.el.value = ''
@@ -47,7 +44,10 @@ export default class FileChooser /* implements TypeInitOptions */ {
   destroy () {
     this.el.remove()
   }
-  chooseFile (): Promise<TypeChooseFileRet[]>{
+  chooseFile (accept?: TypeInitOptions["accept"]): Promise<TypeChooseFileRet[]>{
+    if (accept) {
+      this.el.setAttribute('accept', accept)
+    }
     return new Promise((resolve, reject) => {
       this.el.click()
       /* this.el.addEventListener('onchange', function() {
@@ -61,7 +61,7 @@ export default class FileChooser /* implements TypeInitOptions */ {
           if (!_this.extReg.test(file.type)) return reject('请选择正确的文件类型')
           if (file.size >= _this.maxSize * 1024) return reject('请选择小于' + _this.maxSize + 'kb的文件')
 
-          promises.push(fileDataHandler(file, _this.compress))
+          promises.push(fileDataHandler(file, _this.compress, _this.videoCover as any))
         }
         Promise.all(promises).then(resolve).catch(reject)
       }

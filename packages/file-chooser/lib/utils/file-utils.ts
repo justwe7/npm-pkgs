@@ -7,7 +7,7 @@ import { TypeInitOptions, TypeChooseFileRet } from '../..'
  * @param {*} compress 是否压缩图片
  * @returns {Promise<{file: File|Blob, base64: string}>}
  */
-export function fileDataHandler (file: File, compress: TypeInitOptions["compress"]): Promise<TypeChooseFileRet> {
+export function fileDataHandler (file: File, compress: TypeInitOptions["compress"], videoCover: TypeInitOptions["compress"]): Promise<TypeChooseFileRet> {
   return new Promise(resolve => {
     const reader = new FileReader()
     reader.onload = function () {
@@ -21,6 +21,11 @@ export function fileDataHandler (file: File, compress: TypeInitOptions["compress
             resolve({ file: dataURLtoBlobAsFile(base64, file.name || getFileName(file)), base64: base64 })
           })
         }
+      } else if (videoCover) {
+        const base64 = this.result as string
+        getVideoCover(base64).then(cover => {
+          resolve({ file, base64, cover })
+        })
       } else {
         resolve({ file, base64: this.result as string })
       }
@@ -36,7 +41,7 @@ export function fileDataHandler (file: File, compress: TypeInitOptions["compress
  * @param {*} maxWidth
  * @returns {Promise<base64>}
  */
-export function compressFileToBase64 (file: File|Blob, compressQuality = 0.8, maxWidth = 1500): Promise<string> {
+export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.8, maxWidth: any = 1500): Promise<string> {
   // 图片压缩
   return new Promise(resolve => {
     // 通过fileReader对象，读取浏览器中存储的文件
@@ -101,12 +106,50 @@ export function compressFileToBase64 (file: File|Blob, compressQuality = 0.8, ma
 }
 
 /**
+ *
+ * 截取视频第一帧
+ * @param {*} base64Content
+ * @param {*} [{ currentTime = 0.5, width, height }={}]
+ * @return {*}
+ */
+function getVideoCover (base64Content: string, { currentTime = 0.5, width, height }: any = {} as { currentTime: number, width?: number, height?: number }): Promise<string> {
+  return new Promise(async (resolve) => {
+    const videoEl = document.createElement('video')
+    videoEl.currentTime = currentTime
+    videoEl.setAttribute('crossOrigin', 'anonymous')
+    videoEl.setAttribute('src', base64Content)
+    // 指定封面宽高
+    if (width && height) {
+      videoEl.setAttribute('width', width)
+      videoEl.setAttribute('height', height)
+    } else {
+      // 视频原始宽高
+      await new Promise<void>(resolve => {
+        videoEl.onloadedmetadata = () => {
+          window.URL.revokeObjectURL(videoEl.src)
+          height = videoEl.videoHeight
+          width = videoEl.videoWidth
+          resolve()
+        }
+      })
+    }
+    videoEl.addEventListener('loadeddata', function () {
+        const canvas = document.createElement<any>('canvas')
+        canvas.width = width!
+        canvas.height = height!
+        canvas.getContext('2d').drawImage(videoEl, 0, 0, width!, height!)
+        resolve(canvas.toDataURL('image/jpeg'))
+    });
+  })
+}
+
+/**
  * @param {*} dataurl base64
  * @param {*} fileName blob属性的文件名
  * @param {'blob'|'file'} fileType blob属性的文件名
  * @return {*}
  */
-export function dataURLtoBlobAsFile (dataurl: string, fileName: string, fileType: 'blob'|'file' = 'blob') {
+export function dataURLtoBlobAsFile (dataurl: string, fileName: string, fileType: 'blob'|'file' = 'blob'): any {
   const arr: any[] = dataurl.split(',')
   const mime = arr[0].match(/:(.*?);/)[1]
   const bstr = atob(arr[1])
