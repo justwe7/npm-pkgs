@@ -17,17 +17,18 @@
     "dist",
     "index.d.ts"
   ],
-  "main": "./dist/file-chooser.umd.cjs",
-  "module": "./dist/file-chooser.js",
+  "main": "./dist/file-chooser.umd.js",
+  "module": "./dist/file-chooser.es.js",
   "types": "./index.d.ts",
   "exports": {
     "types": "./index.d.ts",
-    "import": "./dist/file-chooser.js",
-    "require": "./dist/file-chooser.umd.cjs"
+    "import": "./dist/file-chooser.es.js",
+    "require": "./dist/file-chooser.umd.js"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build"
+    "dev": "vite --config vite.config.example.ts",
+    "build": "tsc && vite build",
+    "build:example": "tsc && vite build --config vite.config.example.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",

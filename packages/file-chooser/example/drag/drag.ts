@@ -1,5 +1,4 @@
-import './style.css'
-import FileChooser from '../lib/main'
+import FileChooser from '../../lib/main'
 // import ff from '../dist/counter.js'
 document.addEventListener('DOMContentLoaded', function () {
   const ele = document.querySelector<HTMLElement>('#drag')!
@@ -24,5 +23,3 @@ document.addEventListener('DOMContentLoaded', function () {
       // })
   })
 })
-
-// setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
