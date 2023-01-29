@@ -12,19 +12,21 @@ export function fileDataHandler (file: File, compress: TypeInitOptions["compress
     const reader = new FileReader()
     reader.onload = function () {
       if (compress) { // 图片压缩
+        // !TODO 压缩可以复用当前fd的base64数据
         if (typeof compress === 'boolean') {
           compressFileToBase64(file).then(base64 => {
             resolve({ file: dataURLtoBlobAsFile(base64, file.name || getFileName(file)), base64: base64 })
           })
         } else {
-          compressFileToBase64(file, compress.compressQuality, compress.maxWidth).then(base64 => {
+          compressFileToBase64(file, compress.compressQuality, compress.maxWidth, compress.rotate, compress.exifruri).then(base64 => {
             resolve({ file: dataURLtoBlobAsFile(base64, file.name || getFileName(file)), base64: base64 })
           })
         }
       } else if (videoCover) {
         const base64 = this.result as string
         getVideoCover(base64).then(cover => {
-          resolve({ file, base64, cover: { base64: cover, file: dataURLtoBlobAsFile(cover, 'cover.jpeg') } })
+          const coverRet = { base64: cover, file: dataURLtoBlobAsFile(cover, 'cover.jpeg') }
+          resolve({ file, base64, cover: coverRet })
         })
       } else {
         resolve({ file, base64: this.result as string })
@@ -41,7 +43,7 @@ export function fileDataHandler (file: File, compress: TypeInitOptions["compress
  * @param {*} maxWidth
  * @returns {Promise<base64>}
  */
-export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.8, maxWidth: any = 1500): Promise<string> {
+export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.8, maxWidth: any = 1500, rotate = false, exifruri = 'https://testingcf.jsdelivr.net/npm/exifr/dist/lite.umd.js'): Promise<string> {
   // 图片压缩
   return new Promise(resolve => {
     // 通过fileReader对象，读取浏览器中存储的文件
@@ -67,43 +69,50 @@ export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.
           canvas.height = height
           // ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
           // resolve(canvas.toDataURL('image/jpeg', compressQuality))
-          try {
-            if (!window.exifr) {
-              await loadExternalAsset('https://testingcf.jsdelivr.net/npm/exifr/dist/lite.umd.js')
-            }
-            exifr.orientation(file).then((orientation: any) => { // https://github.com/MikeKovarik/exifr
-              if (orientation !== 1 && orientation !== undefined && orientation !== 0) {
-                switch (orientation) {
-                  case 6:// 需要顺时针（向左）90度旋转
-                    canvas.width = height
-                    canvas.height = width
-                    ctx.rotate(Math.PI / 2)
-                    ctx.drawImage(image, 0, -height, width, height)
-                    break
-                  case 8:// 需要逆时针（向右）90度旋转
-                    canvas.width = height
-                    canvas.height = width
-                    ctx.rotate(-90 * Math.PI / 180)
-                    ctx.drawImage(image, -width, 0, width, height)
-                    break
-                  case 3:// 需要180度旋转
-                    ctx.rotate(Math.PI)
-                    ctx.drawImage(image, -width, -height, width, height)
-                    break
-                  default: ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
-                }
-              } else {
-                ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+          if (rotate) {
+            try {
+              if (!window.exifr) {
+                await loadExternalAsset(exifruri)
               }
-              resolve(canvas.toDataURL('image/jpeg', compressQuality))
-            }).catch(() => {
+              exifr.orientation(file).then((orientation: any) => { // https://github.com/MikeKovarik/exifr https://mutiny.cz/exifr/examples/orientation.html
+                if (orientation !== 1 && orientation !== undefined && orientation !== 0) {
+                  switch (orientation) {
+                    case 6:// 需要顺时针（向左）90度旋转
+                      canvas.width = height
+                      canvas.height = width
+                      ctx.rotate(Math.PI / 2)
+                      ctx.drawImage(image, 0, -height, width, height)
+                      break
+                    case 8:// 需要逆时针（向右）90度旋转
+                      canvas.width = height
+                      canvas.height = width
+                      ctx.rotate(-90 * Math.PI / 180)
+                      ctx.drawImage(image, -width, 0, width, height)
+                      break
+                    case 3:// 需要180度旋转
+                      ctx.rotate(Math.PI)
+                      ctx.drawImage(image, -width, -height, width, height)
+                      break
+                    default: ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+                  }
+                } else {
+                  ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+                }
+                resolve(canvas.toDataURL('image/jpeg', compressQuality))
+              }).catch(() => {
+                ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+                resolve(canvas.toDataURL('image/jpeg', compressQuality))
+              })
+            } catch (error) {
               ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
               resolve(canvas.toDataURL('image/jpeg', compressQuality))
-            })
-          } catch (error) {
+            }
+          } else {
             ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+            // jpeg是有损压缩，png无损
             resolve(canvas.toDataURL('image/jpeg', compressQuality))
           }
+          
         } else {
           resolve((e.target as any).result as string)
         }
@@ -116,16 +125,16 @@ export function compressFileToBase64 (file: File|Blob, compressQuality: any = 0.
 /**
  *
  * 截取视频第一帧
- * @param {*} base64Content
+ * @param {*} uri 资源地址或base64
  * @param {*} [{ currentTime = 0.5, width, height }={}]
  * @return {*}
  */
-export function getVideoCover (base64Content: string, { currentTime = 0.5, width, height }: any = {} as { currentTime: number, width?: number, height?: number }): Promise<string> {
+export function getVideoCover (uri: string, { currentTime = 0.5, width, height }: any = {} as { currentTime: number, width?: number, height?: number }): Promise<string> {
   return new Promise(async (resolve) => {
     const videoEl = document.createElement('video')
     videoEl.currentTime = currentTime
     videoEl.setAttribute('crossOrigin', 'anonymous')
-    videoEl.setAttribute('src', base64Content)
+    videoEl.setAttribute('src', uri)
     // 指定封面宽高
     if (width && height) {
       videoEl.setAttribute('width', width)
@@ -166,10 +175,13 @@ export function dataURLtoBlobAsFile (dataurl: string, fileName: string, fileType
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n)
   }
-  const file = fileType === 'blob' ? new Blob([u8arr], { type: mime }) : new File([u8arr], fileName, { type: mime }) as any // 生成blob数据
-  file.lastModifiedDate = new Date()
-  file.name = fileName
-  return file
+  if (fileType === 'blob') {
+    const file = new Blob([u8arr], { type: mime }) as any // 生成blob数据
+    file.lastModifiedDate = new Date()
+    file.name = fileName
+    return file
+  }
+  return new File([u8arr], fileName, { type: mime })
 }
 
 function genUuid () {

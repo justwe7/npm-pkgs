@@ -9,7 +9,7 @@ export {
 export default class FileChooser /* implements TypeInitOptions */ {
   el!: HTMLInputElement
   private maxSize!: number // 文件大小
-  private compress!: TypeInitOptions["compress"] // 【图片】默认不压缩 true 默认压缩率0.8 最长边长1500px
+  private compress!: TypeInitOptions["compress"] // 【图片】默认不压缩 true 默认图片质量0.8 最长边长1500px超出等比缩放
   private videoCover!: TypeInitOptions["videoCover"] // 【视频】默认不截取
   private extReg!: RegExp // 格式校验
 
