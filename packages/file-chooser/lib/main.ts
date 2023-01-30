@@ -15,7 +15,7 @@ export default class FileChooser /* implements TypeInitOptions */ {
   private compress!: TypeInitOptions["compress"] // 【图片】默认不压缩 true 默认图片质量0.8 最长边长1500px超出等比缩放
   private videoCover!: TypeInitOptions["videoCover"] // 【视频】默认不截取
   private extReg!: RegExp|null // 格式校验
-  private dragCb!: (res: TypeChooseFileRet[]) => void
+  private dragCb!: (errMsg: null|string, res: TypeChooseFileRet[]) => void
 
   constructor (options: Partial<TypeInitOptions> = {}) {
     this.fileList = []
@@ -57,7 +57,7 @@ export default class FileChooser /* implements TypeInitOptions */ {
   destroy () {
     this.el.remove()
   }
-  on (ev: 'drag', cb: (res: TypeChooseFileRet[]) => void) {
+  on (ev: 'drag', cb: (err: null|string, res: TypeChooseFileRet[]) => void) {
     switch (ev) {
       case 'drag':
         this.dragCb = cb
@@ -106,10 +106,12 @@ export default class FileChooser /* implements TypeInitOptions */ {
         if (!e.dataTransfer?.files?.length) return
 
         this.fileDataTransHandler(e.dataTransfer.files).then(retList => {
-          this.dragCb && this.dragCb(retList)
+          this.dragCb && this.dragCb(null, retList)
           dragWrapEl.dispatchEvent(new CustomEvent("chooseFile", {
             detail: retList
           }))
+        }).catch(err => {
+          this.dragCb && this.dragCb(err, [])
         })
       }, false)
     }

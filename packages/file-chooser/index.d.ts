@@ -5,7 +5,7 @@ export default class Main {
   changeOptions(): () => Main
   clear(): void
   destory(): void
-  on(ev: 'drag', cb: (e: TypeChooseFileRet[]) => void): void
+  on(ev: 'drag', cb: (errMsg: null|string, res: TypeChooseFileRet[]) => void): void
 }
 
 export const compressFileToBase64: (file: File|Blob, compressQuality: any = 0.8, maxWidth: any = 1500) => Promise<string>

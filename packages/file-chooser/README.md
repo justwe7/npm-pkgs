@@ -1,7 +1,10 @@
 # `@justwe7/file-chooser`
 
 > 无UI的文件选择器，通过方法唤起文件选择器，输出base64与File。并提供拖拽上传、图片压缩、视频封面截取、文件上传、进度监听等功能
+> 
 > typescript编写，IDE支持友好
+>
+> demo https://wiki.lihx.top/npm-pkgs/packages/file-chooser/dist-example
 
 ## Usage
 ```bash
@@ -102,12 +105,13 @@ getVideoCover('url/base64', { currentTime: 1 }).then(base64 => {
 const ele = document.querySelector<HTMLElement>('#drag')!
 const FileChooserInstance = new FileChooser({ dragWrapEl: ele })
 // 1. 监听实例暴露的钩子
-FileChooserInstance.on('drag', function (e) {
-  console.log(e)
+FileChooserInstance.on('drag', function (errMsg, list) {
+  if (errMsg) return alert(errMsg)
+  console.log(list)
 })
 // 2. dom接收自定义事件
-ele.addEventListener('chooseFile', (e) => {
-  console.log(e)
+ele.addEventListener('chooseFile', (ev) => {
+  console.log(ev)
 })
 ```
 
