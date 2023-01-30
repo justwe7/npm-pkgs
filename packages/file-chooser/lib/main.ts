@@ -1,3 +1,4 @@
+// import "@babel/runtime-corejs3/core-js-stable/promise" /* --- iife corejs 内联解决方案 (3/3)--- */
 import { TypeInitOptions, TypeChooseFileRet } from '..';
 import { fileDataHandler, compressFileToBase64, getVideoCover, dataURLtoBlobAsFile } from './utils/file-utils';
 

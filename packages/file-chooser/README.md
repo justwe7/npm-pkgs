@@ -115,6 +115,22 @@ ele.addEventListener('chooseFile', (ev) => {
 })
 ```
 
+### 通过script引入
+> 为支持esm，暂不支持此方式打包，如有需求需本地打包后引入
+```js
+<script src="./file-chooser.iife.js"></script>
+var FileChooserInstance = new FileChooser.default()
+
+document.querySelector('#btn')?.addEventListener('click', () => {
+  FileChooserInstance.chooseFile().then(res => {
+    console.log(res)
+  })
+
+  FileChooser.compressFileToBase64().then(res => {
+    console.log(res)
+  })
+})
+```
 
 ## TODO
 - [ ] 支持接口上传
